@@ -2,6 +2,13 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 
+const cityBackgrounds = {
+  Algiers: "/algiers.jpg",    
+  Blida: "/blida.jpg",         
+  Boumerdes: "/boumerdas.jpg",   
+  TiziOuzou: "/images/tizi_ouzou.jpg", 
+};
+
 export default function Home() {
   const [cityInput, setCityInput] = useState("Algiers");
   const [weatherData, setWeatherData] = useState(null);
@@ -42,8 +49,15 @@ export default function Home() {
     fetchWeatherData(cityInput);
   };
 
+  const backgroundImage = cityBackgrounds[cityInput] || "/default.jpg"; 
+
+  console.log("Background Image URL:", backgroundImage);
+
   return (
-    <div className="min-h-screen bg-cover bg-center text-white relative transition-opacity duration-500">
+    <div
+      className="min-h-screen bg-cover bg-center text-white relative transition-opacity duration-500"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30 z-0"></div>
 
       <div className="absolute top-0 left-0 w-full h-full flex justify-between items-start flex-col p-8">
@@ -86,7 +100,7 @@ export default function Home() {
             </form>
 
             <ul className="mt-4 space-y-2">
-              {["Algiers", "Blida", "Boumerdes", "Tizi Ouzou"].map((city) => (
+              {["Algiers", "Blida", "Boumerdes", "TiziOuzou"].map((city) => (
                 <li key={city} className="text-lg cursor-pointer hover:underline" onClick={() => handleCityClick(city)}>
                   {city}
                 </li>
@@ -124,4 +138,3 @@ export default function Home() {
     </div>
   );
 }
-
